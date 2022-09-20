@@ -1,0 +1,3 @@
+nucleapisoFoam.C
+
+EXE = $(FOAM_APPBIN)/nucleapisoFoam

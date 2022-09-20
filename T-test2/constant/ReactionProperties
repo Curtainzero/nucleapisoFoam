@@ -1,0 +1,15 @@
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      ReactionProperties;
+}
+
+// This is for 1st order reaction
+
+C1  C1   [ 0 -3 0 0 1 0 0 ] 20;  // concentration of species 1  [mol/(m^3)]
+
+C2  C2   [ 0 -3 0 0 1 0 0 ] 20;  // [mol/(m^3)]
+
+k k [ 0 3 -1 0 -1 0 0 ] 0.2;  // reaction kinetics constant [m^3/(mol*s)]

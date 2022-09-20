@@ -1,0 +1,87 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  dev
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      populationaBalanceProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+populationBalanceModel univariate;
+
+univariateCoeffs
+{
+    aggregation off;
+    aggregationKernel
+    {
+        aggregationKernel turbulentBrownian;
+    }
+
+    breakup off;
+    breakupKernel
+    {
+        breakupKernel LuoSvendsen;
+
+        Cb        Cb        [ 0 0 0 0 0 0 0 ] 1.0e-3;
+        epsilonExp          0.75;
+        nuExp              -1.25;
+        sizeExp             1.0;
+
+        daughterDistribution
+        {
+            daughterDistribution symmetricFragmentation;
+        }
+    }
+
+    diffusionModel
+    {
+        diffusionModel  molecularDiffusion;
+        gammaLam        gammaLam    [ 0 2 -1 0 0 0 0 ] 0;
+    }
+
+    growth on;
+    growthModel
+    {
+        growthModel     classicGrowth;
+        minAbscissa     1e-10;
+        maxAbscissa     1e10;
+        moleDensity     0.1;
+        rho             10490;
+
+        nucleationModel
+        {
+        nucleationModel classicNu;
+        parameterA 0.05;
+        parameterB 0.2;
+        }
+    }
+
+    nucleation on;
+    nucleationModel
+    {
+        nucleationModel classicNu;
+        parameterA 0.05;
+        parameterB 0.2;
+    }
+
+    odeCoeffs
+    {
+        ATol    1.0e-8;
+        RTol    1.0e-4;
+        fac     0.9;
+        facMin  0.5;
+        facMax  2.0;
+        minLocalDt 1.0e-5;
+    }
+}
+
+
+// ************************************************************************* //
