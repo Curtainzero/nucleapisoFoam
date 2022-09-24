@@ -1,6 +1,5 @@
 # nucleapisoFoam
 
 requires:
-private fork of OpenQBMM https://github.com/Curtainzero/populationBalanceModels
-OpenQBMM
+private fork of OpenQBMM
 OpenFOAM-2206
