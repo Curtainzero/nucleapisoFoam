@@ -1,14 +1,15 @@
-volScalarField dydt = fvc::ddt(y);
+volScalarField dydt = (y - yOld)/dt;
 volScalarField tmp = Ksist*C2*dydt;
 
 forAll(dcdt,i) {
     dcdt[i] = tmp[i];
 }
 
-// SuperS的得出方法需要参考模型
+// SuperS的得出方法需要参考模型，先这样假设
 forAll(SuperS,i) {
-    SuperS[i] = 0.01*dcdt[i];
+    SuperS[i] = 100*dcdt[i];
 }
 
-Info<<"Solving pbe"<<endl;
+
+// Info<<"Solving pbe"<<endl;
 populationBalance->solve();

@@ -1,4 +1,4 @@
-Info<< "Solving Mixture Fraction Eqns" << endl;
+// Info<< "Solving Mixture Fraction Eqns" << endl;
 
 volScalarField GammaT = (mfCmu/mfSct)*sqr(turbulence->k())/(turbulence->epsilon());
 volScalarField Gammas = (mfCphi/2)*(turbulence->epsilon()/turbulence->k());
@@ -20,7 +20,7 @@ fvScalarMatrix KsiVareqn(
     -fvm::SuSp(2*Gammas*KsiVar, KsiVar)
 );
 
-Info << "Solving Mixture Fraction Transport Model" << endl;
+// Info << "Solving Mixture Fraction Transport Model" << endl;
 
 Ksieqn.solve();
 KsiVareqn.solve();

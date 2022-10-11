@@ -136,7 +136,7 @@ dimensionedScalar mfCphi = 2;
 #include "createMRF.H"
 #include "createFvOptions.H"
 
-//以下为pbe所需
+//以下为pbe所需, 通过mesh.lookup传递给pbe
 
 volScalarField dcdt
 (
@@ -146,7 +146,7 @@ volScalarField dcdt
 	runTime.timeName(),
 	mesh,
 	IOobject::NO_READ,
-    IOobject::NO_WRITE
+    IOobject::AUTO_WRITE
     ),
     mesh,
     dimMoles/dimTime
@@ -165,6 +165,7 @@ volScalarField SuperS
     mesh,
     dimless
 );
+
 
 IOdictionary populationBalanceProperties
 (
