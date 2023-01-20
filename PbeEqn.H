@@ -1,15 +1,20 @@
-volScalarField dydt = (y - yOld)/dt;
-volScalarField tmp = Ksist*C2*dydt;
-
-forAll(dcdt,i) {
-    dcdt[i] = tmp[i];
-}
-
-// SuperS的得出方法需要参考模型，先这样假设
-forAll(SuperS,i) {
-    SuperS[i] = 100*dcdt[i];
-}
 
 
 // Info<<"Solving pbe"<<endl;
 populationBalance->solve();
+
+const volScalarField& totalN = mesh.lookupObject<volScalarField>("moment.0.populationBalance");
+const volScalarField& totalL = mesh.lookupObject<volScalarField>("moment.1.populationBalance");
+Info << "then" << endl;
+
+forAll(averageSize,i){
+    if (totalN[i]<1.0) {
+        averageSize[i] = 0.0;
+    } else {
+        averageSize[i] = totalL[i]*1e9/totalN[i];
+    }
+    
+}
+
+//averageSize = totalL/totalN;
+

@@ -52,17 +52,23 @@ IOdictionary ReactionProperties
 
 dimensionedScalar C1
 (
-    ReactionProperties.lookup("C1")
+    "C1",
+    dimMoles*inv(dimVolume),
+    ReactionProperties
 );
 
 dimensionedScalar C2
 (
-    ReactionProperties.lookup("C2")
+    "C2",
+    dimMoles*inv(dimVolume),
+    ReactionProperties
 );
 
 dimensionedScalar k
 (
-    ReactionProperties.lookup("k")
+    "k",
+    dimVolume*inv(dimMoles*dimTime),
+    ReactionProperties
 );
 
 Info<< "Reading field Mixture fraction Ksi\n" << endl;
@@ -107,9 +113,8 @@ volScalarField y
     mesh
 );
 
-
-
-
+volScalarField dydt(y);
+volScalarField yOld(y);
 
 #include "createPhi.H"
 
@@ -128,9 +133,9 @@ autoPtr<incompressible::turbulenceModel> turbulence
 );
 
 
-dimensionedScalar mfSct = 0.7;
-dimensionedScalar mfCmu = 0.09;
-dimensionedScalar mfCphi = 2;
+scalar mfSct = 0.7;
+scalar mfCmu = 0.09;
+scalar mfCphi = 2;
 
 
 #include "createMRF.H"
@@ -160,12 +165,33 @@ volScalarField SuperS
 	runTime.timeName(),
 	mesh,
 	IOobject::NO_READ,
-    IOobject::NO_WRITE
+    IOobject::AUTO_WRITE
     ),
     mesh,
     dimless
 );
 
+SuperS = 0.0;
+
+volScalarField SuperSTmp(SuperS);
+
+volScalarField averageSize
+(
+    IOobject
+    (
+    "AveragedSize",
+	runTime.timeName(),
+	mesh,
+	IOobject::NO_READ,
+    IOobject::AUTO_WRITE
+    ),
+    mesh,
+    dimLength
+);
+
+forAll(averageSize, i) {
+    averageSize[i] = 0.0;
+}
 
 IOdictionary populationBalanceProperties
 (
